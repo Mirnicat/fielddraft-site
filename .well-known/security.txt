@@ -1,0 +1,8 @@
+# FieldDraft - security contact
+# https://mirnicat.github.io/fielddraft-site/security.html
+
+Contact: https://mirnicat.github.io/fielddraft-site/support.html
+Expires: 2027-09-20T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://mirnicat.github.io/fielddraft-site/.well-known/security.txt
+Policy: https://mirnicat.github.io/fielddraft-site/security.html

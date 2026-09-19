@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security - FieldDraft</title>
+<meta name="description" content="How FieldDraft protects your data, what it does not collect, and how to report a security issue.">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="bar">
+  <a class="logo" href="./index.html"><img src="icon.png" alt=""> FieldDraft</a>
+  <nav>
+    <a href="./index.html">Home</a>
+    <a href="./privacy.html">Privacy</a>
+    <a href="./terms.html">Terms</a>
+    <a href="./refunds.html">Refunds</a>
+    <a href="./security.html">Security</a>
+    <a href="./accessibility.html">Accessibility</a>
+    <a href="./support.html">Support</a>
+    <a href="./delete-data.html">Delete data</a>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<h1>Security</h1>
+<p class="updated">Last updated: 20 September 2026</p>
+
+<p class="lede">FieldDraft holds your clients' names, addresses, phone numbers and what
+you charged them. That is real data about real people, so here is exactly how it is
+handled - and how to tell us if something is wrong.</p>
+
+<h2>Where your data lives</h2>
+<ul>
+<li>Everything is stored in the app's <strong>private sandbox</strong> on your device -
+    a SQLite database and a media folder that no other app on the phone can read.</li>
+<li>There is <strong>no server</strong>. We operate no database, no account system and
+    no cloud storage for your records, so there is nothing of yours for us to lose,
+    hand over or have breached.</li>
+<li>The database is deliberately kept out of shared folders such as Documents, and
+    Android's own backup agent is switched off for it
+    (<code>allowBackup=false</code>, plus explicit data-extraction rules), so your
+    client list is not copied into a backup you did not choose.</li>
+<li>Uninstalling the app removes all of it. See <a href="./delete-data.html">deleting
+    your data</a>.</li>
+</ul>
+
+<h2>What the app sends over the network</h2>
+<ul>
+<li>Until you open the subscription screen, the app makes <strong>no network
+    connection at all</strong>. The billing library is not even started.</li>
+<li>Once you open it, the only traffic is to Google Play and to RevenueCat, to check
+    whether you have an active subscription. No estimate, invoice, client record,
+    photo or PDF ever leaves your device through the app.</li>
+<li>Sending a PDF uses your own phone's share sheet. You choose the app and the
+    recipient; FieldDraft hands the file to the app you picked and nothing else.</li>
+<li>There is no analytics SDK, no advertising SDK and no advertising ID. The app does
+    not build a profile of you.</li>
+<li>Network connections that are made are pinned to HTTPS with the system trust store
+    only, so a user-installed certificate cannot silently intercept them.</li>
+</ul>
+
+<h2>Permissions</h2>
+<p>The installed app declares <strong>no runtime permissions of its own</strong>. It
+does not ask for storage, contacts, location, camera or photo-library access. Adding a
+logo or a job photo uses the Android system photo picker, which hands the app the one
+image you chose and nothing more - which is why no gallery permission is needed. The
+only entries in the final manifest are the internet and network-state entries the
+billing library requires.</p>
+
+<h2>On-device protection</h2>
+<ul>
+<li><strong>App lock.</strong> An optional PIN, asked for every time the app returns to
+    the front. The PIN itself is never stored - only a salted PBKDF2-HMAC-SHA256 hash
+    of it, compared in constant time. Repeated wrong attempts trigger an increasing
+    delay.</li>
+<li><strong>Screenshot blocking.</strong> An optional setting that marks the app's
+    window secure, so it is excluded from screenshots, screen recording and the
+    recent-apps preview.</li>
+<li><strong>Encrypted backups.</strong> A backup file contains every client you have.
+    You can seal it with a password; it is then encrypted with AES-256-GCM using a key
+    derived by PBKDF2-HMAC-SHA256. GCM authenticates as well as encrypts, so a file
+    that has been altered is refused rather than partly decrypted.</li>
+<li><strong>Export hygiene.</strong> CSV exports neutralise leading <code>=</code>,
+    <code>+</code>, <code>-</code> and <code>@</code> so a value in your data cannot be
+    turned into a formula when the file is opened in a spreadsheet.</li>
+<li><strong>Restore safety.</strong> A restore shows you what is in the file - how many
+    documents, clients and payments, and when it was made - before anything is
+    replaced, and it runs as a single transaction. A restored file can never set or
+    change the app lock, so a backup cannot be used to lock you out of your own phone.</li>
+</ul>
+
+<h2>Build integrity</h2>
+<ul>
+<li>Release builds are code-shrunk and obfuscated, with native debug symbols stripped
+    and uploaded separately.</li>
+<li>Values that must survive obfuscation - anything written into the database - are
+    stored as explicit strings, never as a class or field name that a rename could
+    change. An app update can never silently corrupt records that way.</li>
+<li>The app contains no secret keys. The only key compiled in is the public,
+    client-side billing key, which is designed to be readable.</li>
+<li>Releases are signed with a key held offline by the developer.</li>
+</ul>
+
+<h2>Reporting a vulnerability</h2>
+<div class="card">
+<p>If you believe you have found a security problem in FieldDraft, please tell us
+before telling anyone else, through the <a href="./support.html">support page</a>, with
+"SECURITY" in the subject. Include what you found and how to reproduce it.</p>
+<p>We will acknowledge a report within <strong>5 working days</strong> and keep you
+informed until it is resolved. We will not take legal action over good-faith research
+that stays within your own device and your own data, does not disrupt other users, and
+gives us reasonable time to fix the issue before it is published. We are happy to
+credit you.</p>
+</div>
+
+<h2>What we would tell you about</h2>
+<p>We hold no personal data of yours on any system we run, so a breach of ours cannot
+expose your client list. If a defect in the app were ever found to put data on your own
+device at risk, we would publish it on this page and in the release notes, and ship a
+fix as quickly as we could.</p>
+
+
+<footer>
+  <p><strong>FieldDraft</strong> - developed by Mirnicat Seyidzade, Azerbaijan.<br>
+  Google Play package: <code>com.mirnicat.fielddraft</code></p>
+  <p><a href="./privacy.html">Privacy</a> &middot; <a href="./terms.html">Terms</a> &middot;
+     <a href="./refunds.html">Refunds &amp; cancellation</a> &middot;
+     <a href="./security.html">Security</a> &middot;
+     <a href="./accessibility.html">Accessibility</a> &middot;
+     <a href="./support.html">Support</a> &middot; <a href="./delete-data.html">Delete data</a></p>
+</footer>
+</main>
+</body>
+</html>
