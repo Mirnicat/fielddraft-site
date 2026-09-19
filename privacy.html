@@ -43,11 +43,14 @@ transmitted to the developer or to any third party:</p>
 contacts, your location, your call log or your SMS. When you attach a logo, the
 Android system photo picker hands the app that one image only.</p>
 
-<h2>What is transmitted, and only if you subscribe</h2>
-<p>FieldDraft is free until you choose to subscribe. If you do, the purchase is
-processed by <strong>Google Play Billing</strong>, and subscription status is managed by
-<strong>RevenueCat, Inc.</strong>, which acts as our processor. In that case the following
-leaves the device:</p>
+<h2>When the app talks to the internet, and what it sends</h2>
+<p>FieldDraft makes <strong>no network connection of any kind</strong> until you open the
+subscription screen. Browse, price, sign and export as much as you like: nothing
+is contacted and nothing is sent.</p>
+<p>The first time you open the subscription screen, the billing component starts.
+Purchases themselves are processed by <strong>Google Play Billing</strong>, and subscription
+status is managed by <strong>RevenueCat, Inc.</strong>, which acts as our processor. From that
+point the following leaves the device:</p>
 <table>
 <tr><th>Data</th><th>Why</th></tr>
 <tr><td>A randomly generated anonymous app user ID</td><td>To tie a purchase to an installation so your subscription can be restored</td></tr>
@@ -58,6 +61,9 @@ leaves the device:</p>
 any estimate content. We never receive your card number - Google handles payment.
 This data is used only to run the subscription. It is not sold, and it is not used
 for advertising or profiling.</p>
+<p>Once you have opened the subscription screen, the app remembers that locally and
+will check your subscription status on later launches, so a subscription you
+already paid for is recognised without you having to restore it by hand.</p>
 
 <h2>What we deliberately do not do</h2>
 <ul>
