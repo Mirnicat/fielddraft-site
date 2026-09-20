@@ -62,19 +62,37 @@ handled - and how to tell us if something is wrong.</p>
 </ul>
 
 <h2>Permissions</h2>
-<p>The installed app declares <strong>no runtime permissions of its own</strong>. It
-does not ask for storage, contacts, location, camera or photo-library access. Adding a
-logo or a job photo uses the Android system photo picker, which hands the app the one
-image you chose and nothing more - which is why no gallery permission is needed. The
-only entries in the final manifest are the internet and network-state entries the
-billing library requires.</p>
+<p>The installed app asks for <strong>no runtime permissions at all</strong> - there is
+no permission dialog to accept, ever. It does not ask for storage, contacts, location,
+camera or photo-library access. Adding a logo or a job photo uses the Android system
+photo picker, which hands the app the one image you chose and nothing more, which is
+why no gallery permission is needed.</p>
+<p>For completeness, the entries that do appear in the app's manifest are:</p>
+<table>
+<tr><th>Entry</th><th>Why</th></tr>
+<tr><td><code>INTERNET</code></td><td>Required by the billing library to check your subscription. Nothing else in the app uses the network.</td></tr>
+<tr><td><code>ACCESS_NETWORK_STATE</code></td><td>Same library, to tell "offline" apart from "failed".</td></tr>
+<tr><td><code>com.android.vending.BILLING</code></td><td>Google Play billing.</td></tr>
+<tr><td><code>USE_BIOMETRIC</code></td><td>Only so the optional fingerprint unlock can be offered. Android performs the check; the app is told yes or no and never sees anything about your fingerprint or face.</td></tr>
+<tr><td><code>USE_FINGERPRINT</code></td><td>The same thing on Android 7 and 8, where the newer entry did not exist yet.</td></tr>
+</table>
+<p>All five are normal-level entries: Android grants them at install and never prompts
+you. None of them can read anything of yours.</p>
 
 <h2>On-device protection</h2>
 <ul>
 <li><strong>App lock.</strong> An optional PIN, asked for every time the app returns to
     the front. The PIN itself is never stored - only a salted PBKDF2-HMAC-SHA256 hash
     of it, compared in constant time. Repeated wrong attempts trigger an increasing
-    delay.</li>
+    delay, which always expires.</li>
+<li><strong>Fingerprint or face unlock,</strong> optional, as a shortcut past the PIN.
+    Android does the checking; FieldDraft is told only yes or no. It is deliberately
+    <em>biometric-only</em>: it will not fall back to the phone's own PIN or pattern,
+    because that would mean anyone who can open the handset can open the client list.</li>
+<li><strong>A recovery code.</strong> Because the PIN genuinely cannot be reset by us,
+    setting one issues a single 16-character recovery code, shown once. It is stored the
+    same way the PIN is - as a salted hash, never readable - and entering it removes the
+    lock without touching a single record. There is no other back door, for anyone.</li>
 <li><strong>Screenshot blocking.</strong> An optional setting that marks the app's
     window secure, so it is excluded from screenshots, screen recording and the
     recent-apps preview.</li>
